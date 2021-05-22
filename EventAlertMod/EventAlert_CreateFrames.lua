@@ -1205,7 +1205,7 @@ function CreateFrames_CreateGroupCheckFrame(iGroupIndex)
 		if GC_IndexOfGroupFrame[sEventType][iGroupIndex] == nil then GC_IndexOfGroupFrame[sEventType][iGroupIndex] = {} end
 		GC_IndexOfGroupFrame[sEventType][iGroupIndex] = aGroupFrameIndexs[sEventType][iGroupIndex]
 	end
-	if (eaf.GC.ActiveTalentGroup ~= nil) then eaf:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED") end
+	--if (eaf.GC.ActiveTalentGroup ~= nil) then eaf:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED") end
 	if (eaf.GC.HideOnLeaveCombat ~= nil) then eaf:RegisterEvent("PLAYER_REGEN_ENABLED") end
 	eaf:RegisterEvent("PLAYER_TARGET_CHANGED")
 	eaf:SetScript("OnEvent", EventAlert_GroupFrameCheck_OnEvent)

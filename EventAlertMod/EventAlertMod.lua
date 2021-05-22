@@ -265,7 +265,7 @@ function EventAlert_OnLoad(self)
 		["PLAYER_TALENT_UPDATE"]		= EventAlert_PLAYER_TALENT_UPDATE,
 		["PLAYER_TALENT_WIPE"]			= EventAlert_PLAYER_TALENT_WIPE,
 		["PLAYER_TARGET_CHANGED"]		= EventAlert_TARGET_CHANGED,
-		["ACTIVE_TALENT_GROUP_CHANGED"]	= EventAlert_ACTIVE_TALENT_GROUP_CHANGED,
+		--["ACTIVE_TALENT_GROUP_CHANGED"]	= EventAlert_ACTIVE_TALENT_GROUP_CHANGED,
 		["COMBAT_LOG_EVENT_UNFILTERED"]	= EventAlert_COMBAT_LOG_EVENT_UNFILTERED ,
 		--["COMBAT_TEXT_UPDATE"]			=EventAlert_COMBAT_TEXT_UPDATE,		
 		["SPELL_UPDATE_COOLDOWN"]		= EventAlert_SPELL_UPDATE_COOLDOWN,
@@ -282,7 +282,7 @@ function EventAlert_OnLoad(self)
 		["UNIT_POWER_FREQUENT"]			= EventAlert_UNIT_POWER_UPDATE,
 		["RUNE_TYPE_UPDATE"]			= EventAlert_UpdateRunes,
 		["RUNE_POWER_UPDATE"]			= EventAlert_UpdateRunes,
-		--["UNIT_SPELLCAST_SUCCEEDED"]	= EventAlert_UNIT_SPELLCAST_SUCCEEDED,		
+		["UNIT_SPELLCAST_SUCCEEDED"]	= EventAlert_UNIT_SPELLCAST_SUCCEEDED,		
 		["PLAYER_TOTEM_UPDATE"]			= EventAlert_UNIT_PLAYER_TOTEM_UPDATE,		
 	}
 	
@@ -545,7 +545,8 @@ end
 --[[------------------------------------------------------------------
 --------------------------------------------------------------------]]
 function EventAlert_UNIT_SPELLCAST_SUCCEEDED(self,event,...)
-	local unitCaster,spellName,_,_,spellID = ...
+	--local unitCaster,spellName,_,_,spellID = ...
+	local unitCaster,_,spellID = ...
 	local surName = UnitName(unitCaster)	
 	EventAlert_ScdBuffs_Update(surName, spellName, spellID)
 end
@@ -1747,7 +1748,7 @@ function EventAlert_OnSCDUpdate(spellID)
 			if (EA_Enable == 1) then
 				local EA_timeLeft = EA_start + EA_duration - GetTime()
 				--local EA_GCD = 1.5/(1+(UnitSpellHaste("player")/100))
-				local EA_GCD = 1.5
+				local EA_GCD = 1.5/(1+(GetHaste()/100))				
 				if EA_GCD < 0.75 then EA_GCD = 0.75 end
 				--if (EA_start > 0 and EA_duration > EA_GCD )  then
 				if (EA_timeLeft > 0 and EA_duration > EA_GCD )  then
@@ -4059,8 +4060,17 @@ function EventAlert_PlayerSpecPower_Update()
 	if (pClass == EA_CLASS_WARRIOR) then EA_SpecPower.Rage.has = true 	end
 	--若玩家為德魯伊表示有怒氣
 	if (pClass == EA_CLASS_DRUID) 	then EA_SpecPower.Rage.has = true	end
-	--若玩家為獵人表示有法力值
-	if (pClass == EA_CLASS_HUNTER) then	EA_SpecPower.Mana.has = true	end
+	--若玩家為獵人、法師、牧師、術士、德魯伊、聖騎、薩滿表示有法力值
+	if 	(pClass == EA_CLASS_HUNTER) or
+		(pClass == EA_CLASS_MAGE) or
+		(pClass == EA_CLASS_WARLOCK) or
+		(pClass == EA_CLASS_DRUID) or
+		(pClass == EA_CLASS_PALADIN) or
+		(pClass == EA_CLASS_PRIEST) or
+		(pClass == EA_CLASS_SHAMAN)
+	then	
+		EA_SpecPower.Mana.has = true	
+	end
 	--若玩家為盜賊表示有能量
 	if (pClass == EA_CLASS_ROGUE) then 	EA_SpecPower.Energy.has = true end
 	--若玩家為德魯伊表示有能量
