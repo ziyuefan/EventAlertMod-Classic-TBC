@@ -273,6 +273,8 @@ function CreateFrames_SpecialFrames_Show(index)
 			EventAlert_UpdateLifeBloom("player")		
 		elseif (index == EA_SpecPower.ComboPoints.frameindex[1]) then
 			EventAlert_UpdateComboPoints()		
+		elseif (index == EA_SpecPower.Focus.frameindex[1]) then
+			EventAlert_UpdateFocus()		
 		elseif (iPowerType == EA_SpecPower.Runes.powerId) then
 			
 			EventAlert_UpdateRunes()
@@ -321,14 +323,17 @@ function CreateFrames_SpecialFrames_Show(index)
 	elseif index == EA_SpecPower.Mana.frameindex[1] then
 		-- 法力值的圖案
 		Lib_ZYF:SetBackdrop(eaf,{bgFile = "interface/icons/spell_arcane_manatap"})
+	elseif index == EA_SpecPower.Happiness.frameindex[1] then
+		-- 寵物快樂值的圖案
+		Lib_ZYF:SetBackdrop(eaf,{bgFile = "	interface/petpaperdollframe/ui-pethappiness"})
 	elseif index == EA_SpecPower.Focus.frameindex[1] then
 		-- 獵人集中值的圖案
 		Lib_ZYF:SetBackdrop(eaf,{bgFile = "Interface/Icons/Ability_Marksmanship"})
 	elseif index == EA_SpecPower.Focus.frameindex[2] then
 		-- 寵物集中值的圖案						
-		--Lib_ZYF:SetBackdrop(eaf, {bgFile = "Interface/Icons/Ability_Marksmanship"})
-		local specIcon = GetSpellTexture(982)
-		eaf.texture:SetTexture(specIcon)
+		Lib_ZYF:SetBackdrop(eaf, {bgFile = "Interface/Icons/Ability_Marksmanship"})
+		--local specIcon = GetSpellTexture(982)
+		--eaf.texture:SetTexture(specIcon)
 	elseif index == EA_SpecPower.Energy.frameindex[1] then
 		-- 盜賊/貓D/武僧能量的圖案
 		--eaf:SetBackdrop({bgFile = "Interface/Icons/Spell_Nature_Healingway"})
@@ -342,9 +347,11 @@ function CreateFrames_SpecialFrames_Show(index)
 		--Lib_ZYF:SetBackdrop(eaf,{bgFile=iconTextures[GetSpecialization()]})
 		--eaf.texture:SetTexture(runeTextures[GetSpecialization()])
 		
-		eaf.texture:SetTexture(1630812)		
-		local coord = runeSetTexCoord[GetSpecialization()]				
-		eaf.texture:SetTexCoord(coord.minX, coord.maxX, coord.minY, coord.maxY)	
+		if GetSpecialization then
+			eaf.texture:SetTexture(1630812)		
+			local coord = runeSetTexCoord[GetSpecialization()]				
+			eaf.texture:SetTexCoord(coord.minX, coord.maxX, coord.minY, coord.maxY)	
+		end
 		
 	elseif index == EA_SpecPower.SoulShards.frameindex[1] then
 		-- 術士靈魂碎片的圖案
@@ -1205,7 +1212,7 @@ function CreateFrames_CreateGroupCheckFrame(iGroupIndex)
 		if GC_IndexOfGroupFrame[sEventType][iGroupIndex] == nil then GC_IndexOfGroupFrame[sEventType][iGroupIndex] = {} end
 		GC_IndexOfGroupFrame[sEventType][iGroupIndex] = aGroupFrameIndexs[sEventType][iGroupIndex]
 	end
-	if (eaf.GC.ActiveTalentGroup ~= nil) then eaf:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED") end
+	--if (eaf.GC.ActiveTalentGroup ~= nil) then eaf:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED") end
 	if (eaf.GC.HideOnLeaveCombat ~= nil) then eaf:RegisterEvent("PLAYER_REGEN_ENABLED") end
 	eaf:RegisterEvent("PLAYER_TARGET_CHANGED")
 	eaf:SetScript("OnEvent", EventAlert_GroupFrameCheck_OnEvent)

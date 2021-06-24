@@ -311,7 +311,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_HOLYPOWER)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.HolyPower)
 					</OnLoad>
 					<OnClick>
 						
@@ -321,7 +321,7 @@
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_HOLYPOWER)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.HolyPower)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
@@ -338,7 +338,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_RUNICPOWER)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.RunicPower)
 					</OnLoad>
 					<OnClick>
 						
@@ -347,7 +347,7 @@
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_RUNICPOWER)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.RunicPower)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
@@ -364,7 +364,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_SOULSHARDS)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.SoulShards)
 					</OnLoad>
 					<OnClick>
 						
@@ -373,7 +373,7 @@
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_SOULSHARDS)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.SoulShards)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
@@ -390,7 +390,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_LUNARPOWER)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.LunarPower)
 					</OnLoad>
 					<OnClick>						
 						EA_Config.SpecPowerCheck.LunarPower = self:GetChecked()
@@ -398,14 +398,14 @@
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_LUNARPOWER)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.LunarPower)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
 					</OnLeave>
 				</Scripts>
 			</CheckButton>
-			<CheckButton name="$parent_SpecFlag_ComboPoint" inherits="OptionsCheckButtonTemplate">
+			<CheckButton name="$parent_SpecFlag_ComboPoints" inherits="OptionsCheckButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parent_SpecFlag_SoulShards" relativePoint="BOTTOMLEFT">
 						<Offset>
@@ -415,7 +415,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_COMBOPOINT)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.ComboPoints)
 					</OnLoad>
 					<OnClick>
 						
@@ -424,7 +424,7 @@
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_COMBOPOINT)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.ComboPoints)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
@@ -433,7 +433,7 @@
 			</CheckButton>
 			<CheckButton name="$parent_SpecFlag_LifeBloom" inherits="OptionsCheckButtonTemplate">
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_SpecFlag_ComboPoint" relativePoint="TOPRIGHT">
+					<Anchor point="TOPLEFT" relativeTo="$parent_SpecFlag_ComboPoints" relativePoint="TOPRIGHT">
 						<Offset>
 							<AbsDimension x="100" y="0" />
 						</Offset>
@@ -441,7 +441,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_LIFEBLOOM)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.LifeBloom)
 					</OnLoad>
 					<OnClick>
 						
@@ -450,7 +450,7 @@
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_LIFEBLOOM)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.LifeBloom)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
@@ -459,7 +459,7 @@
 			</CheckButton>
 			<CheckButton name="$parent_SpecFlag_Chi" inherits="OptionsCheckButtonTemplate">
 				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parent_SpecFlag_ComboPoint" relativePoint="BOTTOMLEFT">
+					<Anchor point="TOPLEFT" relativeTo="$parent_SpecFlag_ComboPoints" relativePoint="BOTTOMLEFT">
 						<Offset>
 							<AbsDimension x="0" y="0" />
 						</Offset>
@@ -467,7 +467,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_CHI)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.Chi)
 					</OnLoad>
 					<OnClick>
 						
@@ -476,7 +476,7 @@
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_CHI)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.Chi)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
@@ -493,7 +493,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_ENERGY)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.Energy)
 					</OnLoad>
 					<OnClick>
 						EA_Config.SpecPowerCheck.Energy = self:GetChecked()						
@@ -501,7 +501,7 @@
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_ENERGY)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.Energy)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
@@ -518,7 +518,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_RAGE)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.Rage)
 					</OnLoad>
 					<OnClick>
 						
@@ -527,7 +527,7 @@
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_RAGE)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.Rage)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
@@ -544,7 +544,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_FOCUS)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.Focus)
 					</OnLoad>
 					<OnClick>
 						
@@ -554,7 +554,7 @@
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_FOCUS)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.Focus)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
@@ -571,7 +571,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_INSANITY)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.Insanity)
 					</OnLoad>
 					<OnClick>
 						
@@ -580,7 +580,7 @@
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_INSANITY)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.Insanity)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
@@ -597,7 +597,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_ARCANECHARGES)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.ArcaneCharges)
 					</OnLoad>
 					<OnClick>
 						
@@ -606,7 +606,7 @@
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_ARCANECHARGES)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.ArcaneCharges)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
@@ -623,7 +623,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_MAELSTROM)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.Maelstrom)
 					</OnLoad>
 					<OnClick>
 						
@@ -633,7 +633,7 @@
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_MAELSTROM)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.Maelstrom)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
@@ -650,7 +650,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_RUNES)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.Runes)
 					</OnLoad>
 					<OnClick>
 						
@@ -659,7 +659,7 @@
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_RUNES)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.Runes)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
@@ -676,7 +676,7 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_FURY)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.Fury)
 					</OnLoad>
 					<OnClick>
 						
@@ -685,7 +685,7 @@
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_FURY)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.Fury)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
@@ -702,7 +702,7 @@
 					</Anchors>
 					<Scripts>
 						<OnLoad>
-							_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_MANA)
+							_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.Mana)
 						</OnLoad>
 						<OnClick>
 							
@@ -711,14 +711,14 @@
 						</OnClick>
 						<OnEnter>
 							GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-							GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_MANA)
+							GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.Mana)
 						</OnEnter>
 						<OnLeave>
 							GameTooltip:Hide()
 						</OnLeave>
 					</Scripts>
 				</CheckButton>
-			<CheckButton name="$parent_SpecFlag_Focus_Pet" inherits="OptionsCheckButtonTemplate">
+			<CheckButton name="$parent_SpecFlag_Happiness" inherits="OptionsCheckButtonTemplate">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parent_SpecFlag_Mana" relativePoint="BOTTOMLEFT">
 						<Offset>
@@ -728,17 +728,41 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText(EA_XOPT_SPECFLAG_FOCUS_PET)
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.Happiness)						
 					</OnLoad>
-					<OnClick>
-						
+					<OnClick>						
+						EA_Config.SpecPowerCheck.Happiness = self:GetChecked()						
+						EventAlert_SpecialFrame_Update()						
+					</OnClick>
+					<OnEnter>
+						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.Happiness)
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide()
+					</OnLeave>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="$parent_SpecFlag_FocusPet" inherits="OptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_SpecFlag_Happiness" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="0" y="0" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						_G[self:GetName().."Text"]:SetText(EA_SPELL_POWER_NAME.FocusPet)						
+					</OnLoad>
+					<OnClick>						
 						EA_Config.SpecPowerCheck.FocusPet = self:GetChecked()						
-						EventAlert_SpecialFrame_Update()
+						EventAlert_SpecialFrame_Update()	
 						EventAlert_UpdateFocus()
 					</OnClick>
 					<OnEnter>
 						GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK_FOCUS_PET)
+						GameTooltip:SetText(EA_TTIP_SPECFLAG_CHECK.FocusPet)
 					</OnEnter>
 					<OnLeave>
 						GameTooltip:Hide()
