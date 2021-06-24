@@ -1,9 +1,10 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
 
 	<Script file="EventAlert_LoadDefault.lua" />
-	<Script file="EventAlert_InitVar.lua" />	
+	<Script file="EventAlert_InitVar.lua" />		
 	<Script file="EventAlert_CreateFrames.lua" />	
-	<Script file="EventAlert_SpellArray.lua" />			
+	<Script file="EventAlert_SpellArray.lua" />	
+	<Script file="EventAlert_SpellItem.lua" />		
 	<Script file="EventAlertMod.lua" />		
 	
 	<Frame visible="true" name="EA_Main_Frame" parent="UIParent" toplevel="true" frameStrata="LOW" enableKeyboard="true">

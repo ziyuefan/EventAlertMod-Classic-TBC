@@ -248,10 +248,12 @@ function EventAlert_OnLoad(self)
 	EventAlert_InitSlashCommand()
 	-- Init Main Array
 	-- EventAlert_InitArray()			
-	Lib_ZYF:SetOnUpdate(0.1, EventAlert_PositionFrames)
-	Lib_ZYF:SetOnUpdate(0.1, EventAlert_TarPositionFrames)
-	Lib_ZYF:SetOnUpdate(0.1, EventAlert_ScdPositionFrames)
-	Lib_ZYF:SetOnUpdate(1.5, EventAlert_Icon_Options_Frame_AdjustTimerFontSize)
+	Lib_ZYF:SetOnUpdate(0.09, EventAlert_PositionFrames)
+	Lib_ZYF:SetOnUpdate(0.09, EventAlert_TarPositionFrames)
+	Lib_ZYF:SetOnUpdate(0.09, EventAlert_ScdPositionFrames)
+	Lib_ZYF:SetOnUpdate(0.09, EventAlert_Icon_Options_Frame_AdjustTimerFontSize)
+	Lib_ZYF:SetOnUpdate(0.09, EventAlert_SpecialFrame_Update)
+	
 	
 	EA_EventList = {
 		--["PLAYER_LOGIN"]				=nil					,
@@ -265,7 +267,7 @@ function EventAlert_OnLoad(self)
 		["PLAYER_TALENT_UPDATE"]		= EventAlert_PLAYER_TALENT_UPDATE,
 		["PLAYER_TALENT_WIPE"]			= EventAlert_PLAYER_TALENT_WIPE,
 		["PLAYER_TARGET_CHANGED"]		= EventAlert_TARGET_CHANGED,
-		["ACTIVE_TALENT_GROUP_CHANGED"]	= EventAlert_ACTIVE_TALENT_GROUP_CHANGED,
+		--["ACTIVE_TALENT_GROUP_CHANGED"]	= EventAlert_ACTIVE_TALENT_GROUP_CHANGED,
 		["COMBAT_LOG_EVENT_UNFILTERED"]	= EventAlert_COMBAT_LOG_EVENT_UNFILTERED ,
 		--["COMBAT_TEXT_UPDATE"]			=EventAlert_COMBAT_TEXT_UPDATE,		
 		["SPELL_UPDATE_COOLDOWN"]		= EventAlert_SPELL_UPDATE_COOLDOWN,
@@ -276,13 +278,13 @@ function EventAlert_OnLoad(self)
 		["UNIT_SPELLCAST_CHANNEL_START"]= EventAlert_UNIT_SPELLCAST_CHANNEL_START,
 		["UNIT_AURA"]					= EventAlert_UNIT_AURA,		
 		--["UNIT_COMBO_POINTS"]			= EventAlert_COMBO_POINTS,
-		["UNIT_DISPLAYPOWER"]			= EventAlert_DISPLAYPOWER,
+		--["UNIT_DISPLAYPOWER"]			= EventAlert_DISPLAYPOWER,
 		["UNIT_HEALTH"]					= EventAlert_UNIT_HEALTH	,
 		["UNIT_POWER_UPDATE"]			= EventAlert_UNIT_POWER_UPDATE,
 		["UNIT_POWER_FREQUENT"]			= EventAlert_UNIT_POWER_UPDATE,
 		["RUNE_TYPE_UPDATE"]			= EventAlert_UpdateRunes,
 		["RUNE_POWER_UPDATE"]			= EventAlert_UpdateRunes,
-		--["UNIT_SPELLCAST_SUCCEEDED"]	= EventAlert_UNIT_SPELLCAST_SUCCEEDED,		
+		["UNIT_SPELLCAST_SUCCEEDED"]	= EventAlert_UNIT_SPELLCAST_SUCCEEDED,		
 		["PLAYER_TOTEM_UPDATE"]			= EventAlert_UNIT_PLAYER_TOTEM_UPDATE,		
 	}
 	
@@ -392,7 +394,7 @@ function EventAlert_InitArrayConfig()
 	SetNewValue(EA_Config, "NewLineByIconCount",	0)
 	SetNewValue(EA_Config, "BaseFontSize",			26)	
 	
-	EventAlert_CreateSpellItemCache()
+	--EventAlert_CreateSpellItemCache()
 	EventAlert_Icon_Options_Frame_AdjustTimerFontSize()
 end
 -------------------------------------------------------
@@ -444,6 +446,7 @@ function EventAlert_InitArraySpecCheckPower()
 	end
 end
 function EventAlert_CreateSpellItemCache(flagRenew)	
+	
 	local DoesItemExistByID = C_Item.DoesItemExistByID
 	local GetItemSpell = GetItemSpell
 	--如果未建立過快取則建立快取
@@ -545,7 +548,8 @@ end
 --[[------------------------------------------------------------------
 --------------------------------------------------------------------]]
 function EventAlert_UNIT_SPELLCAST_SUCCEEDED(self,event,...)
-	local unitCaster,spellName,_,_,spellID = ...
+	--local unitCaster,spellName,_,_,spellID = ...
+	local unitCaster,_,spellID = ...
 	local surName = UnitName(unitCaster)	
 	EventAlert_ScdBuffs_Update(surName, spellName, spellID)
 end
@@ -1637,29 +1641,14 @@ function EventAlert_OnSCDUpdate(spellID)
 	local EA_ChargeCurrent, EA_ChargeMax, EA_ChargeStart,EA_ChargeDuration = GetSpellCharges(spellID)
 	local EA_start, EA_duration, EA_Enable = GetSpellCooldown(spellID)	
 	local ScdItems = EA_ScdItems[EA_playerClass]
-	local itemID = EA_Config.EA_SPELL_ITEM[spellID]
-	if itemID then		
-		EA_start, EA_duration, EA_Enable = GetItemCooldown(itemID)
-	end
+	
 	
 	local tmpItemID
 	local tmpSpellID
 	
 	local flagFind = false
-	for bagID = 0,4 do 
-		for slotID = 1,GetContainerNumSlots(bagID) do
-			tmpItemID = GetContainerItemID(bagID, slotID)
-			if tmpItemID and spellID == select(2, GetItemSpell(tmpItemID)) then
-				EA_start, EA_duration, EA_Enable = GetSpellCooldown(spellID)
-				EA_start, EA_duration, EA_Enable = GetItemCooldown(tmpItemID)
-				flagFind = true
-				break			
-			end						
-		end
-		if flagFind then break end
-	end
-	
 	for i=1,17 do 
+		if flagFind then break end
 		tmpItemID  = GetInventoryItemID("player",i)		
 		if tmpItemID then 
 			tmpSpellID = select(2, GetItemSpell(tmpItemID))
@@ -1668,11 +1657,34 @@ function EventAlert_OnSCDUpdate(spellID)
 				--EA_start, EA_duration, EA_Enable = GetSpellCooldown(spellID)
 				--EA_start, EA_duration, EA_Enable = GetItemCooldown(tmpItemID)
 				EA_start, EA_duration, EA_Enable = GetInventoryItemCooldown("player",i)
+				flagFind = true
 				break			
 			end
 		end
 		
 	end
+	for bagID = 0,4 do 
+		if flagFind then break end
+		for slotID = 1,GetContainerNumSlots(bagID) do
+			tmpItemID = GetContainerItemID(bagID, slotID)
+			if tmpItemID and spellID == select(2, GetItemSpell(tmpItemID)) then
+				EA_start, EA_duration, EA_Enable = GetSpellCooldown(spellID)
+				EA_start, EA_duration, EA_Enable = GetItemCooldown(tmpItemID)
+				flagFind = true
+				break			
+			end						
+		end		
+	end
+	
+	if not flagFind then
+		--local itemID = EA_Config.EA_SPELL_ITEM[spellID]
+		local itemID = EA_SPELL_ITEM[spellID]
+		if itemID then		
+			EA_start, EA_duration, EA_Enable = GetItemCooldown(itemID)
+			flagFind=true
+		end
+	end
+	
 	
 	
 	local s = EA_SPELLINFO_SCD[spellID].start 
@@ -1747,7 +1759,7 @@ function EventAlert_OnSCDUpdate(spellID)
 			if (EA_Enable == 1) then
 				local EA_timeLeft = EA_start + EA_duration - GetTime()
 				--local EA_GCD = 1.5/(1+(UnitSpellHaste("player")/100))
-				local EA_GCD = 1.5
+				local EA_GCD = 1.5/(1+(GetHaste()/100))				
 				if EA_GCD < 0.75 then EA_GCD = 0.75 end
 				--if (EA_start > 0 and EA_duration > EA_GCD )  then
 				if (EA_timeLeft > 0 and EA_duration > EA_GCD )  then
@@ -2388,6 +2400,9 @@ function EventAlert_SlashHandler(msg)
 		EAEXF.Prefraction = 0	 
 		EAEXF:AnimateOut(eaf)
 		EAEXF.AlreadyAlert = true 	
+	elseif (cmdtype == "createspellitemcache") then
+	
+		EventAlert_CreateSpellItemCache(true)
 	
 	else
 		if cmdtype == "help" then MoreHelp = true end
@@ -2782,9 +2797,11 @@ function EventAlert_UpdateComboPoints()
 	end
 end
 function EventAlert_UpdateFocus()
+
 	local iPowerType = Enum.PowerType.Focus
 	local iUnitPower = UnitPower("player", iPowerType)
 	local iPetPower = UnitPower("pet", iPowerType)
+	
 	if (EA_Config.ShowFrame == true) then
 		EA_Main_Frame:ClearAllPoints()
 		EA_Main_Frame:SetPoint(EA_Position.Anchor, UIParent, EA_Position.relativePoint, EA_Position.xLoc, EA_Position.yLoc)
@@ -2801,7 +2818,7 @@ function EventAlert_UpdateFocus()
 				eaf1:ClearAllPoints()
 				eaf1:SetPoint(EA_Position.Anchor, prevFrame, EA_Position.Anchor, -1 * xOffset, -1 * yOffset)
 				if (EA_Config.ShowName == true) then
-					eaf1.spellName:SetText(EA_XSPECINFO_FOCUS)
+					eaf1.spellName:SetText(EA_SPELL_POWER_NAME.Focus)
 					SfontName, SfontSize = eaf1.spellName:GetFont()
 					eaf1.spellName:SetFont(SfontName, EA_Config.SNameFontSize)
 				else
@@ -2827,7 +2844,7 @@ function EventAlert_UpdateFocus()
 				eaf2:ClearAllPoints()
 				eaf2:SetPoint(EA_Position.Anchor, prevFrame, EA_Position.Anchor, -2 * xOffset, -1 * yOffset)
 				if (EA_Config.ShowName == true) then
-					eaf2.spellName:SetText(EA_XSPECINFO_FOCUS_PET)
+					eaf2.spellName:SetText(EA_SPELL_POWER_NAME.FocusPet)
 					SfontName, SfontSize = eaf2.spellName:GetFont()
 					eaf2.spellName:SetFont(SfontName, EA_Config.SNameFontSize)
 				else
@@ -2898,9 +2915,12 @@ function EventAlert_UpdateRunes()
 				--if eaf[i].Backdrop == nil then 
 					--Lib_ZYF:SetBackdrop(eaf[i],{bgFile=iconTextures[iRuneType]})
 				--end
-				eaf[i].texture:SetTexture(1630812)
-				local coord = runeSetTexCoord[GetSpecialization()]				
-				eaf[i].texture:SetTexCoord(coord.minX, coord.maxX, coord.minY, coord.maxY)	
+				if GetSpecialization then
+					eaf[i].texture:SetTexture(1630812)
+					local coord = runeSetTexCoord[GetSpecialization()]				
+					eaf[i].texture:SetTexCoord(coord.minX, coord.maxX, coord.minY, coord.maxY)	
+				end
+				
 				if (EA_Config.ShowName==true) then					
 					--eaf[i].spellName:SetText(runeTypeText[iRuneType])
 					--SfontName, SfontSize = eaf[i].spellName:GetFont()
@@ -2973,16 +2993,21 @@ function EventAlert_UpdateSinglePower(iPowerType)
 	--local iUnitPowerPet = UnitPower("pet", iPowerType)	
 	local iPowerName = ""
 	local iFrameIndex = 1000000 + iPowerType * 10	
+	
+	
 	for i,v in ipairs(EA_XGRPALERT_POWERTYPES) do
 		if iPowerType == v.value then
 			iPowerName = v.text
-			if iPowerType == Enum.PowerType.Runes then				
-				local powerName = select(2, GetSpecializationInfo(GetSpecialization()))
-				iPowerName = (powerName or "")..iPowerName
+			if GetSpecialization and GetSpecializationInfo then 
+				if iPowerType == Enum.PowerType.Runes then				
+					local powerName = select(2, GetSpecializationInfo(GetSpecialization()))
+					iPowerName = (powerName or "")..iPowerName
+				end								
 			end
-			break			
+			break
 		end
 	end
+	
 	
 	if (EA_Config.ShowFrame == true) then
 		EA_Main_Frame:ClearAllPoints()
@@ -3036,7 +3061,7 @@ function EventAlert_UpdateSinglePower(iPowerType)
 					eaf.spellName:SetText("")
 				end
 				--符文框架位置設定
-				if (iPowerType == Enum.PowerType.Runes ) then
+				if (iPowerType == Enum.PowerType.Runes ) and GetSpecialization  then
 					local coord = runeSetTexCoord[GetSpecialization()]				
 					eaf.texture:SetTexCoord(coord.minX, coord.maxX, coord.minY, coord.maxY)	
 					eaf:SetPoint(EA_Position.Anchor, prevFrame, EA_Position.Anchor, -2 * xOffset, -2 * yOffset)																						
@@ -3045,7 +3070,7 @@ function EventAlert_UpdateSinglePower(iPowerType)
 				local ManaScale=1
 				if (iPowerType == Enum.PowerType.Mana) then
 					iPowerName = format("%s(%d%%)",iPowerName,iUnitPower/UnitPowerMax(unit,Enum.PowerType.Mana)*100)
-					ManaScale = 0.2				
+					ManaScale = 0.7				
 				end
 				--顯示框架名稱與數量
 				if (EA_Config.ShowName == true) then
@@ -3057,12 +3082,12 @@ function EventAlert_UpdateSinglePower(iPowerType)
 				end
 				eaf.spellTimer:ClearAllPoints()
 				if (EA_Config.ChangeTimer == true) then
-					eaf.spellTimer:SetPoint("CENTER", 0, 0)
+					eaf.spellTimer:SetPoint("CENTER", eaf,"CENTER", 0, 0)
 				else
-					eaf.spellTimer:SetPoint("TOP", 0, EA_Config.TimerFontSize * 1.1 * ManaScale)
+					eaf.spellTimer:SetPoint("BOTTOM",eaf, "TOP", 0, 0)
 				end
 				
-				eaf.spellTimer:SetFont(EA_FONTS, EA_Config.TimerFontSize, "OUTLINE")
+				eaf.spellTimer:SetFont(EA_FONTS, EA_Config.TimerFontSize*ManaScale, "OUTLINE")
 				eaf.spellTimer:SetText(iUnitPower)
 				eaf:Show()
 				
@@ -3319,7 +3344,8 @@ function EventAlert_Lookup(para1, fullmatch)
 	DEFAULT_CHAT_FRAME:AddMessage(EA_XLOOKUP_START1..": [\124cffFFFF00"..para1.."\124r]"..sFMatch)
 	EAFun_ClearSpellScrollFrame()
 	local strfind = strfind
-	local DoesItemExistByID = C_Spell.DoesSpellExist
+	local DoesItemExistByID = C_Item.DoesItemExistByID
+	local DoesSpellExist    = C_Spell.DoesSpellExist
 	local GetSpellInfo = GetSpellInfo
 	local GetSpellLink = GetSpellLink
 	for i=1,1000000 do	
@@ -3480,23 +3506,37 @@ end
 function EAFun_HookTooltips()
 	local GameTooltip = GameTooltip
 	hooksecurefunc(GameTooltip, "SetUnitBuff", function(self,...)
-		local id = select(10,UnitBuff(...))
+		
+		local id = (select(10,UnitBuff(...)))
 		if id then
 			self:AddDoubleLine("(EAM)"..EX_XCLSALERT_SPELL,id)
 			self:Show()
 		end
+			
 	end)
 	hooksecurefunc(GameTooltip, "SetUnitDebuff", function(self,...)
+		
 		local id = select(10,UnitDebuff(...))
 		if id then
 			self:AddDoubleLine("(EAM)"..EX_XCLSALERT_SPELL,id)
 			self:Show()
 		end
+		local unitCaster = (select(7,UnitDebuff(...)))
+		if unitCaster then
+			self:AddDoubleLine("(EAM)".."Caster:",UnitName(unitCaster))
+			self:Show()
+		end
 	end)
 	hooksecurefunc(GameTooltip, "SetUnitAura", function(self,...)
+		
 		local id = select(10,UnitAura(...))
 		if id then
 			self:AddDoubleLine("(EAM)"..EX_XCLSALERT_SPELL,id)
+			self:Show()
+		end
+		local unitCaster = (select(7,UnitAura(...)))
+		if unitCaster then
+			self:AddDoubleLine("(EAM)".."Caster:",UnitName(unitCaster))
 			self:Show()
 		end
 	end)
@@ -3736,7 +3776,7 @@ function EventAlert_GroupFrameCheck_OnEvent(self, event, ...)
 		end
 	end
 	-- If the Active-Talent should be checked
-	if (fShowResult) then
+	if (fShowResult) and  GetSpecialization then
 		if (self.GC.ActiveTalentGroup ~= nil) then
 			--5.1:GetActiveTalentGroup() -> GetActiveSpecGroup()
 			--iActiveTalentGroup = GetActiveSpecGroup()
@@ -3778,7 +3818,7 @@ function EventAlert_GroupFrameCheck_OnEvent(self, event, ...)
 	if (not fShowResult) then
 		EAFun_FireEventCheckHide(self)
 	else
-		if (event == "ACTIVE_TALENT_GROUP_CHANGED") then
+		if (event == "ACTIVE_TALENT_GROUP_CHANGED") and GetSpecialization then
 			-- If the Active-Talent should be checked
 			--5.1:GetActiveTalentGroup() -> GetActiveSpecGroup()
 			--7.0 GetActiveSpecGroup() -> GetSpecialization()
@@ -4047,7 +4087,7 @@ function EventAlert_PlayerSpecPower_Update()
 	
 	--若無職業專精索引表示尚未啟用任一專精
 	--若有，則將此索引傳入GetSpecializationInfo()來取得全職業專精唯一代碼
-	if CurrentSpecCode then id,_,_,icon,_,_ = GetSpecializationInfo(CurrentSpecCode) end
+	if CurrentSpecCode and GetSpecializationInfo then id,_,_,icon,_,_ = GetSpecializationInfo(CurrentSpecCode) end
 	--取得玩家當前形態的特殊資源
 	powerType, powerTypeString = UnitPowerType("player")
 	--取得玩家職業
@@ -4059,8 +4099,28 @@ function EventAlert_PlayerSpecPower_Update()
 	if (pClass == EA_CLASS_WARRIOR) then EA_SpecPower.Rage.has = true 	end
 	--若玩家為德魯伊表示有怒氣
 	if (pClass == EA_CLASS_DRUID) 	then EA_SpecPower.Rage.has = true	end
-	--若玩家為獵人表示有法力值
-	if (pClass == EA_CLASS_HUNTER) then	EA_SpecPower.Mana.has = true	end
+	
+	--若玩家為獵人、法師、牧師、術士、德魯伊、聖騎、薩滿表示有法力值
+	if 	(pClass == EA_CLASS_HUNTER) or
+		(pClass == EA_CLASS_MAGE) or
+		(pClass == EA_CLASS_WARLOCK) or
+		(pClass == EA_CLASS_DRUID) or
+		(pClass == EA_CLASS_PALADIN) or
+		(pClass == EA_CLASS_PRIEST) or
+		(pClass == EA_CLASS_SHAMAN)
+	then	
+		EA_SpecPower.Mana.has = true	
+	end
+	
+	--若玩家為獵人表示有快樂值
+	if (pClass == EA_CLASS_HUNTER) then
+		EA_SpecPower.Happiness.has = true
+	end
+	--若玩家為獵人表示有集中值
+	if (pClass == EA_CLASS_HUNTER) then
+		EA_SpecPower.Focus.has = true
+	end
+	
 	--若玩家為盜賊表示有能量
 	if (pClass == EA_CLASS_ROGUE) then 	EA_SpecPower.Energy.has = true end
 	--若玩家為德魯伊表示有能量
@@ -4111,7 +4171,7 @@ function EventAlert_PlayerSpecPower_Update()
 		-- if (id == 581) then	EA_SpecPower.Pain.has = true end 		
 		if (id == 581) then	EA_SpecPower.Fury.has = true end 		
 	end
-	EventAlert_SpecialFrame_Update()
+	--EventAlert_SpecialFrame_Update()
 end
 function EventAlert_SpecialFrame_Update()
 	local type = type
@@ -4360,6 +4420,13 @@ EA_SpecPower = {
 									func = EventAlert_UpdateSinglePower,
 									has,
 									frameindex = {1000000 + 10 * Enum.PowerType.Energy},
+									},
+				Happiness	 		= 	{
+									powerId = Enum.PowerType.Happiness,
+									powerType = "HAPPINESS",
+									func = EventAlert_UpdateSinglePower,
+									has,
+									frameindex = {1000000 + 10 * Enum.PowerType.Happiness},
 									},
 				ComboPoints		=   {
 									powerId = Enum.PowerType.ComboPoints,
