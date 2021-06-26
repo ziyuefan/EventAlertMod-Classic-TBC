@@ -2,8 +2,7 @@ if LibDebug then LibDebug() end
 EA_Config = {
 			SpecPowerCheck = {
 				FocusPet,
-				ComboPoints,
-				Mana,
+				ComboPoints,				
 				Rage, 
 				Focus,
 				Energy,
@@ -24,6 +23,9 @@ EA_Config = {
 				Maelstrom,
 				Fury,			
 				Pain,
+				Happiness,
+				Mana,
+				Health,
 				},
 			DoAlertSound,
 			AlertSound,

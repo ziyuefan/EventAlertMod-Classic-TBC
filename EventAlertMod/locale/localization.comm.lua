@@ -31,6 +31,7 @@ EA_SPELL_POWER_INSANITY = Enum.PowerType.Insanity			-- 瘋狂（暗牧）
 EA_SPELL_POWER_ARCANE_CHARGES = Enum.PowerType.ArcaneCharges-- 秘法充能(秘法師)
 EA_SPELL_POWER_FURY = Enum.PowerType.Fury					-- 惡魔獵人(魔怒)
 EA_SPELL_POWER_PAIN = Enum.PowerType.Pain					-- 惡魔獵人(魔痛)
+EA_SPELL_POWER_HAPPINESS = Enum.PowerType.Happiness			-- 獵人(快樂值)
 	
 
 EA_XGRPALERT_COMPARES = {

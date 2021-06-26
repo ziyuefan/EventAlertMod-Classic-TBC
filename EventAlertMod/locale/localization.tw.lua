@@ -3,7 +3,43 @@ local _
 local _G = _G
 
 if GetLocale() == "zhTW" then 
-
+EA_SPELL_POWER_NAME =	{
+	Health			=	"生命",
+	Mana			=	"法力",
+	Happiness		=	"快樂值",
+	Energy			=	"能量",
+	Rage			=	"怒氣",
+	Focus			=	"集中值",
+	FocusPet		=	"寵物集中",
+	RunicPower		=	"符能",
+	Runes			=	"符文",
+	Pain			=	"魔痛",
+	Fury			=	"魔怒",
+	ComboPoints		=	"連擊星數",
+	LunarPower		=	"星能",
+	HolyPower		=	"聖能",
+	ArcaneCharges	=	"秘法充能",
+	Insanity		=	"瘋狂值",
+	Maelstrom		=	"元能",
+	SoulShards		=	"靈魂碎片",
+	Chi				=	"真氣",	
+	DemonicFury		=	"惡魔之怒",
+	BurningEmbers	=	"燃火餘燼",
+	LifeBloom		=	"生命之花",
+	}
+		
+EA_TTIP_SPECFLAG_CHECK = {}
+for k,v in pairs(EA_SPELL_POWER_NAME) do
+	EA_TTIP_SPECFLAG_CHECK[k]="開啟/關閉, 於本身BUFF框架側顯示"..v
+end	
+	
+EA_XGRPALERT_POWERTYPE = "能量別:"
+EA_XGRPALERT_POWERTYPES = {}
+for k,v in pairs(EA_SPELL_POWER_NAME) do
+	EA_XGRPALERT_POWERTYPES[#EA_XGRPALERT_POWERTYPES + 1]={}
+	EA_XGRPALERT_POWERTYPES[#EA_XGRPALERT_POWERTYPES].text  = v
+	EA_XGRPALERT_POWERTYPES[#EA_XGRPALERT_POWERTYPES].value = Enum.PowerType[k]	
+end
 
 EA_TTIP_DOALERTSOUND = "事件發生時是否播放音效."
 EA_TTIP_ALERTSOUNDSELECT = "選擇事件發生時所播放的音效."
@@ -37,27 +73,6 @@ EA_TTIP_SPELLCOND_OVERGROW = "開啟/關閉, 當法術堆疊大於等於幾層�
 EA_TTIP_SPELLCOND_REDSECTEXT = "開啟/關閉, 當倒數秒數小於等於幾秒時，以加大紅色字體顯示\n(可以輸入的最小值由1開始)"
 EA_TTIP_SPELLCOND_ORDERWTD = "開啟/關閉, 設定顯示順序的優先比重，數字越大者，越優先顯示於最內圈(可輸入1至20)"
 
-EA_TTIP_SPECFLAG_CHECK_MANA = "開啟/關閉, 於本身BUFF框架左側第一格顯示法力"
-EA_TTIP_SPECFLAG_CHECK_HOLYPOWER = "開啟/關閉, 於本身BUFF框架左側第一格顯示聖能堆疊數"
-EA_TTIP_SPECFLAG_CHECK_RUNICPOWER = "開啟/關閉, 於本身BUFF框架左側第一格顯示符文能量"
-EA_TTIP_SPECFLAG_CHECK_RUNES = "開啟/關閉, 於本身BUFF框架上方顯示符文"
-EA_TTIP_SPECFLAG_CHECK_SOULSHARDS = "開啟/關閉, 於本身BUFF框架左側第一格顯示靈魂碎片"
-EA_TTIP_SPECFLAG_CHECK_LUNARPOWER = "開啟/關閉, 於本身BUFF框架左側第一格顯示星能"
-EA_TTIP_SPECFLAG_CHECK_COMBOPOINT = "開啟/關閉, 於目標DEBUFF框架左側第一格顯示集星連擊數"
-EA_TTIP_SPECFLAG_CHECK_LIFEBLOOM = "開啟/關閉, 於本身BUFF框架左側第一格顯示生命之花堆疊與時間"
-EA_TTIP_SPECFLAG_CHECK_RAGE = "開啟/關閉, 於本身BUFF框架左側第一格顯示怒氣"				--  支援怒氣(戰士,熊D)
-EA_TTIP_SPECFLAG_CHECK_FOCUS = "開啟/關閉, 於本身BUFF框架左側第一格顯示集中值"				--  支援集中值(獵人)
-EA_TTIP_SPECFLAG_CHECK_ENERGY = "開啟/關閉, 於本身BUFF框架左側第一格顯示能量"				--  支援能量(賊,貓D,武僧)
-EA_TTIP_SPECFLAG_CHECK_CHI = "開啟/關閉, 於本身BUFF框架左側第一格顯示真氣堆疊數"	--  支援武僧真氣
-EA_TTIP_SPECFLAG_CHECK_INSANITY = "開啟/關閉, 於本身BUFF框架左側第一格顯示瘋狂"			--  支援暗影寶珠(暗牧)
-EA_TTIP_SPECFLAG_CHECK_DEMONICFURY = "開啟/關閉於本身BUFF框架左側第一格顯示惡魔之怒"		--  支援惡魔之怒
-EA_TTIP_SPECFLAG_CHECK_BURNINGEMBERS = "開啟/關閉於本身BUFF框架左側第一格顯示燃火餘燼"		--  支援燃火餘燼
-EA_TTIP_SPECFLAG_CHECK_ARCANECHARGES = "開啟/關閉於本身BUFF框架左側第一格顯示秘法充能"		--  支援秘法充能
-EA_TTIP_SPECFLAG_CHECK_MAELSTROM = "開啟/關閉於本身BUFF框架左側第一格顯示元能"				--  支援薩滿元能
-EA_TTIP_SPECFLAG_CHECK_FURY = "開啟/關閉於本身BUFF框架左側第一格顯示魔怒"					--  支援惡魔獵人魔怒
-EA_TTIP_SPECFLAG_CHECK_PAIN = "開啟/關閉於本身BUFF框架左側第一格顯示魔痛"					--  支援惡魔獵人魔痛
-EA_TTIP_SPECFLAG_CHECK_FOCUS_PET = "開啟/關閉於本身BUFF框架左側第二格顯示寵物集中值"		--  支援獵人寵物集中
-
 EA_TTIP_GRPCFG_ICONALPHA = "變更圖示的透明度"
 EA_TTIP_GRPCFG_TALENT = "限定此專精時才作用"
 EA_TTIP_GRPCFG_HIDEONLEAVECOMBAT = "離開戰鬥後,隱藏圖示"
@@ -82,9 +97,9 @@ EA_XOPT_SHOW_GROUPALERT = "本職業-條件技能提示"
 EA_XOPT_OKAY = "關閉"
 EA_XOPT_SAVE = "儲存"
 EA_XOPT_CANCEL = "取消"
-EA_XOPT_VERURLTEXT = "EAM發布網址："
-EA_XOPT_VERBTN1 = "巴哈"
-EA_XOPT_VERURL1 = "http://forum.gamer.com.tw/Co.php?bsn=05219&sn=5125122&subbsn=0"
+EA_XOPT_VERURLTEXT = "EAM發布網址：\nhttps://github.com/ziyuefan/EventAlertMod-Classic-TBC"
+EA_XOPT_VERBTN1 = "GitHub"
+EA_XOPT_VERURL1 = "https://github.com/ziyuefan/EventAlertMod-Classic-TBC"
 EA_XOPT_SPELLCOND_STACK = "法術堆疊>=幾層時顯示框架:"
 EA_XOPT_SPELLCOND_SELF = "只限制為玩家施放的法術"
 EA_XOPT_SPELLCOND_OVERGROW = "法術堆疊>=幾層時顯示高亮:"
@@ -207,6 +222,7 @@ EA_XGRPALERT_UNITTYPES = {
 EA_XGRPALERT_CHECKCD = "檢測法術CD:"
 	
 EA_XGRPALERT_HEALTH = "血量:"
+
 EA_XGRPALERT_COMPARES = {
 	[1]={text="<", value=1},
 	[2]={text="<=", value=2},
@@ -250,11 +266,6 @@ EA_XLOAD_NEWVERSION_LOAD = "請使用 \124cffFFFF00/eam help\124r 查閱詳細�
 "以上所有條件可以用 AND 或 OR，一個或以上的條件來篩選。\n"..
 "篩選結果為真時，則提示所指定的圖案。\n"..
 "" -- END OF NEWVERSION
-
-
-
-
-
 
 EA_XCMD_VER = " \124cff00FFFFBy Whitep@雷鱗\124r 版本: "
 EA_XCMD_DEBUG = " 模式: "
@@ -307,64 +318,4 @@ EA_XCMD_CMDHELP = {
 	},
 }
 
-
-
-EA_XSPECINFO_MANA = "法力"
-EA_XSPECINFO_COMBOPOINT = "連擊數"
-EA_XSPECINFO_RUNICPOWER	= "符能"
-EA_XSPECINFO_RUNES	= "符文"
-EA_XSPECINFO_SOULSHARDS	= "靈魂碎片"
-EA_XSPECINFO_LUNARPOWER= "星能"
-EA_XSPECINFO_HOLYPOWER	= "聖能"
-EA_XSPECINFO_INSANITY= "瘋狂"		
-EA_XSPECINFO_ENERGY= "能量"
-EA_XSPECINFO_RAGE= "怒氣"
-EA_XSPECINFO_FOCUS= "集中值"
-EA_XSPECINFO_FOCUS_PET= "快樂值"
-EA_XSPECINFO_CHI= "真氣"		
-EA_XSPECINFO_ARCANECHARGES= "秘法充能"			
-EA_XSPECINFO_MAELSTROM= "元能"		
-EA_XSPECINFO_FURY= "魔怒"	
-EA_XSPECINFO_PAIN= "魔痛(9.0)已移除"			
-
-EA_XOPT_SPECFLAG_MANA = EA_XSPECINFO_MANA
-EA_XOPT_SPECFLAG_HOLYPOWER = EA_XSPECINFO_HOLYPOWER
-EA_XOPT_SPECFLAG_RUNICPOWER = EA_XSPECINFO_RUNICPOWER
-EA_XOPT_SPECFLAG_RUNES = EA_XSPECINFO_RUNES
-EA_XOPT_SPECFLAG_SOULSHARDS = EA_XSPECINFO_SOULSHARDS
-EA_XOPT_SPECFLAG_LUNARPOWER = EA_XSPECINFO_LUNARPOWER
-EA_XOPT_SPECFLAG_COMBOPOINT = EA_XSPECINFO_COMBOPOINT
-EA_XOPT_SPECFLAG_LIFEBLOOM = "生命之花"
-EA_XOPT_SPECFLAG_INSANITY = EA_XSPECINFO_INSANITY									
-EA_XOPT_SPECFLAG_RAGE = EA_XSPECINFO_RAGE
-EA_XOPT_SPECFLAG_ENERGY = EA_XSPECINFO_ENERGY
-EA_XOPT_SPECFLAG_FOCUS = EA_XSPECINFO_FOCUS
-EA_XOPT_SPECFLAG_FOCUS_PET = EA_XSPECINFO_FOCUS_PET
-EA_XOPT_SPECFLAG_CHI = EA_XSPECINFO_CHI		
-EA_XOPT_SPECFLAG_ARCANECHARGES = EA_XSPECINFO_ARCANECHARGES
-EA_XOPT_SPECFLAG_MAELSTROM = EA_XSPECINFO_MAELSTROM
-EA_XOPT_SPECFLAG_FURY = EA_XSPECINFO_FURY
-EA_XOPT_SPECFLAG_PAIN = EA_XSPECINFO_PAIN
-
-EA_XGRPALERT_POWERTYPE = "能量別:"
-EA_XGRPALERT_POWERTYPES = {
-	[1]={text=EA_XSPECINFO_MANA, value=EA_SPELL_POWER_MANA},
-	[2]={text=EA_XSPECINFO_RAGE, value=EA_SPELL_POWER_RAGE},
-	[3]={text=EA_XSPECINFO_FOCUS, value=EA_SPELL_POWER_FOCUS},
-	[4]={text=EA_XSPECINFO_COMBOPOINT, value=EA_SPELL_POWER_COMBO_POINT},
-	[5]={text=EA_XSPECINFO_ENERGY, value=EA_SPELL_POWER_ENERGY},
-	[6]={text=EA_XSPECINFO_RUNES, value=EA_SPELL_POWER_RUNES},
-	[7]={text=EA_XSPECINFO_RUNICPOWER, value=EA_SPELL_POWER_RUNIC_POWER},
-	[8]={text=EA_XSPECINFO_SOULSHARDS, value=EA_SPELL_POWER_SOUL_SHARDS},
-	[9]={text=EA_XSPECINFO_LUNARPOWER, value=EA_SPELL_POWER_LUNAR_POWER},
-	[10]={text=EA_XSPECINFO_HOLYPOWER, value=EA_SPELL_POWER_HOLY_POWER},
-	[11]={text=EA_XSPECINFO_CHI, value=EA_SPELL_POWER_CHI},		
-	[12]={text=EA_XSPECINFO_INSANITY, value=EA_SPELL_POWER_INSANITY},			
-	[13]={text=EA_XSPECINFO_ARCANECHARGES, value=EA_SPELL_POWER_ARCANE_CHARGES},
-	[14]={text=EA_XSPECINFO_MAELSTROM, value=EA_SPELL_POWER_MAELSTROM},
-	[15]={text=EA_XSPECINFO_FURY, value=EA_SPELL_POWER_FURY},
-	[16]={text=EA_XSPECINFO_PAIN, value=EA_SPELL_POWER_PAIN},	
-}
-
-
-end		-- End Of If
+end		

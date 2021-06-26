@@ -3,8 +3,44 @@ local _
 local _G = _G
 
 if GetLocale() == "zhCN" then 
+EA_SPELL_POWER_NAME =	{
+	Health			=	"生命",
+	Mana			=	"法力",
+	Happiness		=	"快乐值",
+	Energy			=	"能量",
+	Rage			=	"怒气",
+	Focus			=	"集中值",
+	FocusPet		=	"宠物集中",
+	RunicPower		=	"符能",
+	Runes			=	"符文",
+	Pain			=	"痛苦值",
+	Fury			=	"魔怒",
+	ComboPoints		=	"连击数",
+	LunarPower		=	"星界能量",
+	HolyPower		=	"圣能",
+	ArcaneCharges	=	"奥术充能",
+	Insanity		=	"狂乱",
+	Maelstrom		=	"漩涡值",
+	SoulShards		=	"灵魂碎片",
+	Chi				=	"真气",	
+	DemonicFury		=	"恶魔之怒",
+	BurningEmbers	=	"燃火餘燼",
+	LifeBloom		=	"生命之花",
+	}
+	
+EA_TTIP_SPECFLAG_CHECK = {}
+for k,v in pairs(EA_SPELL_POWER_NAME) do
+	EA_TTIP_SPECFLAG_CHECK[k]="開啟/關閉, 於本身BUFF框架側顯示"..v
+end		
 
-
+EA_XGRPALERT_POWERTYPE = "能量別:"
+EA_XGRPALERT_POWERTYPES = {}
+for k,v in pairs(EA_SPELL_POWER_NAME) do
+	EA_XGRPALERT_POWERTYPES[#EA_XGRPALERT_POWERTYPES + 1]={}
+	EA_XGRPALERT_POWERTYPES[#EA_XGRPALERT_POWERTYPES].text  = v
+	EA_XGRPALERT_POWERTYPES[#EA_XGRPALERT_POWERTYPES].value = Enum.PowerType[k]	
+end
+		
 EA_TTIP_DOALERTSOUND = "事件发生时是否播放音效."
 EA_TTIP_ALERTSOUNDSELECT = "选择事件发生时所播放的音效."
 EA_TTIP_LOCKFRAME = "锁定提示框架，避免被滑鼠拖拉移动."
@@ -37,32 +73,10 @@ EA_TTIP_SPELLCOND_OVERGROW = "开启/关闭, 当法术堆叠大于等于几层�
 EA_TTIP_SPELLCOND_REDSECTEXT = "开启/关闭, 当倒数秒数小于等于几秒时，以加大红色字体显示\n(可以输入的最小值由1开始)"
 EA_TTIP_SPELLCOND_ORDERWTD = "开启/关闭, 设定显示顺序的优先比重，数字越大者，越优先显示于最内圈(可输入1至20)"
 
-EA_TTIP_SPECFLAG_CHECK_MANA = "開啟/關閉, 於本身BUFF框架左側第一格顯示法力"
-EA_TTIP_SPECFLAG_CHECK_HOLYPOWER = "开启/关闭, 于本身BUFF框架左侧第一格显示圣能堆叠数"
-EA_TTIP_SPECFLAG_CHECK_RUNICPOWER = "开启/关闭, 于本身BUFF框架左侧第一格显示符文能量"
-EA_TTIP_SPECFLAG_CHECK_RUNES = "开启/关闭, 于本身BUFF框架上方显示符文"
-EA_TTIP_SPECFLAG_CHECK_SOULSHARDS = "开启/关闭, 于本身BUFF框架左侧第一格显示灵魂碎片"
-EA_TTIP_SPECFLAG_CHECK_LUNARPOWER = "开启/关闭, 于本身BUFF框架左侧第一格显示星界能量"
-EA_TTIP_SPECFLAG_CHECK_COMBOPOINT = "开启/关闭, 于目标DEBUFF框架左侧第一格显示集星连击数"
-EA_TTIP_SPECFLAG_CHECK_LIFEBLOOM = "开启/关闭, 于本身BUFF框架左侧第一格显示生命之花堆叠与时间"
-EA_TTIP_SPECFLAG_CHECK_RAGE = "开启/关闭, 于本身BUFF框架左侧第一格显示怒气"					-- 支援怒气(战士,熊D)
-EA_TTIP_SPECFLAG_CHECK_FOCUS = "开启/关闭, 于本身BUFF框架左侧第一格显示集中值"					-- 支援集中值(猎人)
-EA_TTIP_SPECFLAG_CHECK_FOCUS_PET = "开启/关闭, 于本身BUFF框架左侧第二格显示宠物集中值"			-- 支援宠物集中值(猎人)
-EA_TTIP_SPECFLAG_CHECK_ENERGY = "开启/关闭, 于本身BUFF框架左侧第一格显示能量"					-- 支援能量(贼,猫D,武僧)
-EA_TTIP_SPECFLAG_CHECK_CHI = "开启/关闭, 于本身BUFF框架左侧第一格显示真气堆叠数"		-- 支援武僧真气
-EA_TTIP_SPECFLAG_CHECK_INSANITY = "开启/关闭, 于本身BUFF框架左侧第一格显示暗影宝珠"			-- 支援暗影狂亂(暗牧)
-EA_TTIP_SPECFLAG_CHECK_DEMONICFURY = "开启/关闭于本身的BUFF框架左侧第一格显示恶魔之怒" 		--  支援恶魔之怒
-EA_TTIP_SPECFLAG_CHECK_BURNINGEMBERS = "开启/关闭于本身的BUFF框架左侧第一格显示燃火余烬"		--  支援燃火余烬
-EA_TTIP_SPECFLAG_CHECK_ARCANECHARGES = "开启/关闭于本身的BUFF框架左侧第一格显示奥术充能"		--  支援奥术充能
-EA_TTIP_SPECFLAG_CHECK_MAELSTROM = "开启/关闭于本身的BUFF框架左侧第一格显示漩涡值"				--  支援薩滿漩涡值
-EA_TTIP_SPECFLAG_CHECK_FURY = "开启/关闭于本身的BUFF框架左侧第一格显示恶魔之怒"				--  支援恶魔之怒(恶魔猎手)
-EA_TTIP_SPECFLAG_CHECK_PAIN = "开启/关闭于本身的BUFF框架左侧第一格显示痛苦值"					--  支援痛苦值(恶魔猎手)
-
 EA_TTIP_GRPCFG_ICONALPHA = "变更图示的透明度"
 EA_TTIP_GRPCFG_TALENT = "限定此專精时才作用"
 EA_TTIP_GRPCFG_HIDEONLEAVECOMBAT = "离开战斗后,隐藏图示"
 EA_TTIP_GRPCFG_HIDEONLOSTTARGET = "没有目标时,隐藏图示"
-
 EA_TTIP_GRPCFG_GLOWWHENTRUE = "满足条件时,高亮图示"
 
 EA_XOPT_ICONPOSOPT = "图示位置&副资源"
@@ -83,9 +97,9 @@ EA_XOPT_SHOW_GROUPALERT = "本职业-条件技能提示"
 EA_XOPT_OKAY = "关闭"
 EA_XOPT_SAVE = "储存"
 EA_XOPT_CANCEL = "取消"
-EA_XOPT_VERURLTEXT = "EAM发布网址："
-EA_XOPT_VERBTN1 = "巴哈"
-EA_XOPT_VERURL1 = "http://forum.gamer.com.tw/Co.php?bsn=05219&sn=5125122&subbsn=0"
+EA_XOPT_VERURLTEXT = "EAM发布网址：\nhttps://github.com/ziyuefan/EventAlertMod-Classic-TBC"
+EA_XOPT_VERBTN1 = "GitHub"
+EA_XOPT_VERURL1 = "https://github.com/ziyuefan/EventAlertMod-Classic-TBC"
 EA_XOPT_SPELLCOND_STACK = "法术堆叠>=几层时显示框架:"
 EA_XOPT_SPELLCOND_SELF = "只限制为玩家施放的法术"
 EA_XOPT_SPELLCOND_OVERGROW = "法术堆叠>=几层时显示高亮:"
@@ -209,6 +223,16 @@ EA_XGRPALERT_CHECKCD = "检测法术CD:"
 
 EA_XGRPALERT_HEALTH = "血量:"
 
+EA_XGRPALERT_COMPARES = {
+	[1]={text="<", value=1},
+	[2]={text="<=", value=2},
+	[3]={text="=", value=3},
+	[4]={text=">=", value=4},
+	[5]={text=">", value=5}, 
+	[6]={text="<>", value=6}, 
+	[7]={text="*", value=7}, 		--any	
+}
+
 EA_XGRPALERT_COMPARETYPES = {
 	[1]={text="数值", value=1},
 	[2]={text="百分比", value=2},
@@ -243,11 +267,6 @@ EA_XLOAD_NEWVERSION_LOAD = "请使用 \124cffFFFF00/eam help\124r 查阅详细�
 "以上所有条件可以用 AND 或 OR，一个或以上的条件来筛选。\n"..
 "筛选结果为真时，则提示所指定的图案。\n"..
 "" -- END OF NEWVERSION
-
-
-
-
-
 
 
 
@@ -302,60 +321,5 @@ EA_XCMD_CMDHELP = {
 		"查询游戏中所有法术，并列出所有[完整符合]查询名称的法术ID",
 	},
 }
-EA_XSPECINFO_MANA = "法力"
-EA_XSPECINFO_COMBOPOINT = "连击数"
-EA_XSPECINFO_RUNICPOWER = "符能"
-EA_XSPECINFO_RUNES = "符文"
-EA_XSPECINFO_SOULSHARDS = "灵魂碎片"
-EA_XSPECINFO_LUNARPOWER = "星界能量"
-EA_XSPECINFO_HOLYPOWER = "圣能"
-EA_XSPECINFO_INSANITY = "狂乱"		--5.1新增by ZYF:支援暗影宝珠、能量、怒气、集中值
-EA_XSPECINFO_ENERGY = "能量"
-EA_XSPECINFO_RAGE = "怒气"
-EA_XSPECINFO_FOCUS = "集中值"
-EA_XSPECINFO_FOCUS_PET = "宠物集中"
-EA_XSPECINFO_CHI = "真气"			-- 支援武僧真气
-EA_XSPECINFO_ARCANECHARGES = "奥术充能"		-- 支援奥术充能
-EA_XSPECINFO_MAELSTROM = "漩涡值"			-- 支援薩滿漩涡值
-EA_XSPECINFO_FURY = "恶魔之怒"				-- 支援恶魔猎手恶魔之怒
-EA_XSPECINFO_PAIN = "痛苦值(9.0已移除)"				-- 支援恶魔猎手痛苦值
 
-EA_XOPT_SPECFLAG_MANA = EA_XSPECINFO_MANA
-EA_XOPT_SPECFLAG_HOLYPOWER = EA_XSPECINFO_HOLYPOWER
-EA_XOPT_SPECFLAG_RUNICPOWER = EA_XSPECINFO_RUNICPOWER
-EA_XOPT_SPECFLAG_RUNES = EA_XSPECINFO_RUNES
-EA_XOPT_SPECFLAG_SOULSHARDS = EA_XSPECINFO_SOULSHARDS
-EA_XOPT_SPECFLAG_LUNARPOWER = EA_XSPECINFO_LUNARPOWER
-EA_XOPT_SPECFLAG_COMBOPOINT = EA_XSPECINFO_COMBOPOINT
-EA_XOPT_SPECFLAG_LIFEBLOOM = "生命之花"
-EA_XOPT_SPECFLAG_INSANITY = EA_XSPECINFO_INSANITY									
-EA_XOPT_SPECFLAG_RAGE = EA_XSPECINFO_RAGE
-EA_XOPT_SPECFLAG_ENERGY = EA_XSPECINFO_ENERGY
-EA_XOPT_SPECFLAG_FOCUS = EA_XSPECINFO_FOCUS
-EA_XOPT_SPECFLAG_FOCUS_PET = EA_XSPECINFO_FOCUS_PET
-EA_XOPT_SPECFLAG_CHI = EA_XSPECINFO_CHI		
-EA_XOPT_SPECFLAG_ARCANECHARGES = EA_XSPECINFO_ARCANECHARGES
-EA_XOPT_SPECFLAG_MAELSTROM = EA_XSPECINFO_MAELSTROM
-EA_XOPT_SPECFLAG_FURY = EA_XSPECINFO_FURY
-EA_XOPT_SPECFLAG_PAIN = EA_XSPECINFO_PAIN
-
-EA_XGRPALERT_POWERTYPE = "能量別:"
-EA_XGRPALERT_POWERTYPES = {
-	[1]={text=EA_XSPECINFO_MANA, value=EA_SPELL_POWER_MANA},
-	[2]={text=EA_XSPECINFO_RAGE, value=EA_SPELL_POWER_RAGE},
-	[3]={text=EA_XSPECINFO_FOCUS, value=EA_SPELL_POWER_FOCUS},
-	[4]={text=EA_XSPECINFO_COMBOPOINT, value=EA_SPELL_POWER_COMBO_POINT},
-	[5]={text=EA_XSPECINFO_ENERGY, value=EA_SPELL_POWER_ENERGY},
-	[6]={text=EA_XSPECINFO_RUNES, value=EA_SPELL_POWER_RUNES},
-	[7]={text=EA_XSPECINFO_RUNICPOWER, value=EA_SPELL_POWER_RUNIC_POWER},
-	[8]={text=EA_XSPECINFO_SOULSHARDS, value=EA_SPELL_POWER_SOUL_SHARDS},
-	[9]={text=EA_XSPECINFO_LUNARPOWER, value=EA_SPELL_POWER_LUNAR_POWER},
-	[10]={text=EA_XSPECINFO_HOLYPOWER, value=EA_SPELL_POWER_HOLY_POWER},
-	[11]={text=EA_XSPECINFO_CHI, value=EA_SPELL_POWER_CHI},		
-	[12]={text=EA_XSPECINFO_INSANITY, value=EA_SPELL_POWER_INSANITY},			
-	[13]={text=EA_XSPECINFO_ARCANECHARGES, value=EA_SPELL_POWER_ARCANE_CHARGES},
-	[14]={text=EA_XSPECINFO_MAELSTROM, value=EA_SPELL_POWER_MAELSTROM},
-	[15]={text=EA_XSPECINFO_FURY, value=EA_SPELL_POWER_FURY},
-	[16]={text=EA_XSPECINFO_PAIN, value=EA_SPELL_POWER_PAIN},	
-}
 end
